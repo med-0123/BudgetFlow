@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيتنا | إدارة ميزانية المنزل</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h2>بيتنا 🏡</h2>
+        <p>إدارة ميزانية المنزل</p>
+
+        <nav>
+            <a href="#dashboard">الرئيسية</a>
+            <a href="#budget-section">ميزانية المنزل</a>
+            <a href="#expenses-section">المصروفات</a>
+            <a href="#reports-section">التقارير</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+            <h1>أهلاً بيك في بيتنا 👋</h1>
+            <p>تابع ميزانية منزلك ونظّم مصروفاتك بسهولة</p>
+            <button type="button" id="clear-all-data-btn">
+                مسح جميع البيانات
+            </button>
+        </header>
+
+        <section id="dashboard">
+            <h2>ملخص الميزانية</h2>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>إجمالي الدخل</h3>
+                    <p id="income-value">0 ج.م</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>الميزانية المخططة</h3>
+                    <p id="budget-value">0 ج.م</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>إجمالي المصروفات</h3>
+                    <p id="expenses-value">0 ج.م</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>المتبقي</h3>
+                    <p id="remaining-value">0 ج.م</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget-section">
+            <h2>إعداد ميزانية المنزل</h2>
+
+            <form id="budget-form">
+
+                <label for="income">الدخل المتاح (جنيه)</label>
+                <input type="number" id="income" placeholder="اكتب إجمالي الدخل" min="0" required>
+
+                <label for="period">مدة الميزانية</label>
+                <select id="period">
+                    <option value="weekly">أسبوعية</option>
+                    <option value="monthly" selected>شهرية</option>
+                    <option value="custom">مدة مخصصة</option>
+                </select>
+
+                <h3>توزيع الميزانية على البنود</h3>
+
+                <div id="categories-container">
+
+                    <div class="category-input">
+                        <input type="text" class="category-name" placeholder="اسم البند، مثل الطعام" required>
+
+                        <input type="number" class="category-amount" placeholder="المبلغ بالجنيه" min="0" required>
+
+                        <button type="button" class="remove-category-btn">
+                            حذف
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" id="add-category-btn">
+                        + إضافة بند
+                    </button>
+
+                    <button type="button" id="clear-budget-btn">
+                        مسح النموذج
+                    </button>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    إنشاء الميزانية
+                </button>
+
+            </form>
+        </section>
+
+        <section id="expenses-section">
+            <h2>تسجيل مصروف جديد</h2>
+
+            <form id="expense-form">
+
+                <label for="expense-name">اسم المصروف</label>
+                <input type="text" id="expense-name" placeholder="مثلاً: شراء مستلزمات المنزل" required>
+
+                <label for="expense-amount">المبلغ (جنيه)</label>
+                <input type="number" id="expense-amount" placeholder="اكتب المبلغ" min="0" required>
+
+                <label for="expense-category">البند</label>
+                <select id="expense-category" required>
+                    <option value="">اختر البند</option>
+                </select>
+
+                <button type="submit" class="submit-btn">
+                    إضافة المصروف
+                </button>
+
+            </form>
+
+            <h3>آخر المصروفات</h3>
+            <div id="expenses-list"></div>
+        </section>
+
+<section id="reports-section">
+    <h2>التقارير والتحليلات</h2>
+    <p class="reports-description">
+        تابع ميزانيتك واعرف مصروفات المنزل بتتوزع إزاي
+    </p>
+
+    <div class="reports-grid">
+
+        <div class="report-card">
+            <h3>الميزانية مقابل المصروفات</h3>
+            <p>مقارنة بين المبلغ المخطط والمبلغ المصروف</p>
+
+            <div class="chart-container">
+                <canvas id="budget-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>توزيع مصروفات المنزل</h3>
+            <p>نسبة كل بند من إجمالي المصروفات</p>
+
+            <div class="chart-container">
+                <canvas id="category-chart"></canvas>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/budget.js"></script>
+    <script src="js/expenses.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
