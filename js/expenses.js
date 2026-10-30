@@ -56,3 +56,70 @@ function getCategoryExpenses(categoryId) {
 
     return total;
 }
+
+
+// =========================
+// Debts and Payments
+// =========================
+
+let debtPayments = [];
+
+// تسجيل عملية سداد
+function addDebtPayment(amount, categoryId) {
+    let payment = {
+        id: Date.now() + Math.random(),
+        amount: Number(amount),
+        categoryId: Number(categoryId),
+        date: new Date().toISOString()
+    };
+
+    debtPayments.push(payment);
+    saveDebtPayments();
+}
+
+// إجمالي ما تم سداده لبند معين
+function getCategoryPayments(categoryId) {
+    let total = 0;
+
+    debtPayments.forEach(function (payment) {
+        if (payment.categoryId === Number(categoryId)) {
+            total += payment.amount;
+        }
+    });
+
+    return total;
+}
+
+// الدين المتبقي لبند معين
+function getCategoryDebt(categoryId) {
+    let category = budget.categories.find(function (item) {
+        return item.id === Number(categoryId);
+    });
+
+    if (!category) {
+        return 0;
+    }
+
+    let debt = getCategoryExpenses(categoryId) - category.amount;
+    let paid = getCategoryPayments(categoryId);
+
+    return Math.max(0, debt - paid);
+}
+
+// إجمالي الديون
+function getTotalDebt() {
+    let total = 0;
+
+    budget.categories.forEach(function (category) {
+        total += getCategoryDebt(category.id);
+    });
+
+    return total;
+}
+
+// مسح عمليات السداد
+function clearDebtPayments() {
+    debtPayments = [];
+    saveDebtPayments();
+}
+

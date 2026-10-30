@@ -19,6 +19,13 @@ let remainingValue = document.getElementById("remaining-value");
 
 let expensesList = document.getElementById("expenses-list");
 let clearAllDataBtn = document.getElementById("clear-all-data-btn");
+// Debt Elements
+let totalDebtValue = document.getElementById("total-debt-value");
+let debtsList = document.getElementById("debts-list");
+
+let debtPaymentForm = document.getElementById("debt-payment-form");
+let debtPaymentCategory = document.getElementById("debt-payment-category");
+let debtPaymentAmount = document.getElementById("debt-payment-amount");
 
 let budgetChart = null;
 let categoryChart = null;
@@ -112,6 +119,7 @@ function updateDashboard() {
     expensesValue.textContent = formatMoney(totalExpenses);
     remainingValue.textContent = formatMoney(remaining);
 
+    renderDebts();
     renderCharts();
 }
 
@@ -207,6 +215,112 @@ function renderCategoryOptions() {
 
 
 // =========================
+// Debt Display
+// =========================
+
+function renderDebts() {
+
+    debtsList.innerHTML = "";
+    debtPaymentCategory.innerHTML = '<option value="">اختر البند</option>';
+
+    let totalDebt = getTotalDebt();
+
+    totalDebtValue.textContent = formatMoney(totalDebt);
+
+    let hasDebts = false;
+
+    budget.categories.forEach(function (category) {
+
+        let debt = getCategoryDebt(category.id);
+
+        if (debt <= 0) {
+            return;
+        }
+
+        hasDebts = true;
+
+        // عرض الدين
+        let debtItem = document.createElement("div");
+        debtItem.className = "debt-item";
+
+        let details = document.createElement("div");
+
+        let name = document.createElement("h4");
+        name.textContent = category.name;
+
+        let description = document.createElement("p");
+        description.textContent =
+            "المبلغ المخصص: " + formatMoney(category.amount);
+
+        details.appendChild(name);
+        details.appendChild(description);
+
+        let amount = document.createElement("strong");
+        amount.textContent = formatMoney(debt);
+
+        debtItem.appendChild(details);
+        debtItem.appendChild(amount);
+
+        debtsList.appendChild(debtItem);
+
+        // إضافة البند لقائمة السداد
+        let option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+
+        debtPaymentCategory.appendChild(option);
+
+    });
+
+    if (!hasDebts) {
+        let message = document.createElement("p");
+        message.className = "debt-empty";
+        message.textContent = "ممتاز! لا توجد ديون مستحقة حاليًا.";
+
+        debtsList.appendChild(message);
+    }
+}
+
+
+
+// =========================
+// Debt Payment
+// =========================
+
+debtPaymentForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    let categoryId = Number(debtPaymentCategory.value);
+    let amount = Number(debtPaymentAmount.value);
+
+    if (!categoryId || amount <= 0) {
+        alert("من فضلك اختر بندًا واكتب مبلغ سداد صحيحًا.");
+        return;
+    }
+
+    let currentDebt = getCategoryDebt(categoryId);
+
+    if (currentDebt <= 0) {
+        alert("هذا البند ليس عليه ديون.");
+        return;
+    }
+
+    if (amount > currentDebt) {
+        alert("مبلغ السداد أكبر من الدين المتبقي.");
+        return;
+    }
+
+    addDebtPayment(amount, categoryId);
+
+    debtPaymentForm.reset();
+
+    updateDashboard();
+
+    alert("تم تسجيل السداد بنجاح!");
+});
+
+// =========================
 // 8. Add Expense
 // =========================
 
@@ -234,14 +348,6 @@ expenseForm.addEventListener("submit", function (event) {
 
     if (!selectedCategory) {
         alert("من فضلك اختر بنداً صحيحاً.");
-        return;
-    }
-
-    let categoryRemaining = selectedCategory.amount -
-        getCategoryExpenses(selectedCategory.id);
-
-    if (amount > categoryRemaining) {
-        alert("هذا المصروف أكبر من المتبقي في هذا البند.");
         return;
     }
 
@@ -533,6 +639,7 @@ clearAllDataBtn.addEventListener("click", function () {
 
         deleteBudget();
         clearExpenses();
+        clearDebtPayments();
 
         budgetForm.reset();
         expenseForm.reset();
@@ -553,9 +660,9 @@ clearAllDataBtn.addEventListener("click", function () {
 // =========================
 // 12. Load Saved Data
 // =========================
-
 loadBudget();
 loadExpenses();
+loadDebtPayments();
 
 renderCategoryOptions();
 renderExpenses();

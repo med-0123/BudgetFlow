@@ -23,6 +23,7 @@
             <a href="#dashboard">الرئيسية</a>
             <a href="#budget-section">ميزانية المنزل</a>
             <a href="#expenses-section">المصروفات</a>
+            <a href="#debt-section">الديون والسداد</a>
             <a href="#reports-section">التقارير</a>
         </nav>
     </aside>
@@ -137,34 +138,70 @@
             <div id="expenses-list"></div>
         </section>
 
-<section id="reports-section">
-    <h2>التقارير والتحليلات</h2>
-    <p class="reports-description">
-        تابع ميزانيتك واعرف مصروفات المنزل بتتوزع إزاي
-    </p>
 
-    <div class="reports-grid">
+        <!-- Debt Section -->
+        <section id="debt-section">
+            <h2>الديون والسداد</h2>
 
-        <div class="report-card">
-            <h3>الميزانية مقابل المصروفات</h3>
-            <p>مقارنة بين المبلغ المخطط والمبلغ المصروف</p>
-
-            <div class="chart-container">
-                <canvas id="budget-chart"></canvas>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>إجمالي الديون المتبقية</h3>
+                    <p id="total-debt-value">0 ج.م</p>
+                </div>
             </div>
-        </div>
 
-        <div class="report-card">
-            <h3>توزيع مصروفات المنزل</h3>
-            <p>نسبة كل بند من إجمالي المصروفات</p>
+            <h3>الديون حسب البنود</h3>
+            <div id="debts-list"></div>
 
-            <div class="chart-container">
-                <canvas id="category-chart"></canvas>
+            <h3>تسجيل سداد جديد</h3>
+
+            <form id="debt-payment-form">
+
+                <label for="debt-payment-category">البند</label>
+                <select id="debt-payment-category" required>
+                    <option value="">اختر البند</option>
+                </select>
+
+                <label for="debt-payment-amount">مبلغ السداد (جنيه)</label>
+                <input type="number" id="debt-payment-amount" placeholder="اكتب مبلغ السداد" min="0" step="0.01"
+                    required>
+
+                <button type="submit" class="submit-btn">
+                    تسجيل السداد
+                </button>
+
+            </form>
+        </section>
+
+
+        <section id="reports-section">
+            <h2>التقارير والتحليلات</h2>
+            <p class="reports-description">
+                تابع ميزانيتك واعرف مصروفات المنزل بتتوزع إزاي
+            </p>
+
+            <div class="reports-grid">
+
+                <div class="report-card">
+                    <h3>الميزانية مقابل المصروفات</h3>
+                    <p>مقارنة بين المبلغ المخطط والمبلغ المصروف</p>
+
+                    <div class="chart-container">
+                        <canvas id="budget-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>توزيع مصروفات المنزل</h3>
+                    <p>نسبة كل بند من إجمالي المصروفات</p>
+
+                    <div class="chart-container">
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                </div>
+
             </div>
-        </div>
-
-    </div>
-</section>
+        </section>
 
     </main>
 

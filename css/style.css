@@ -292,7 +292,7 @@ button:hover {
     background: #fbfcfa;
 }
 
-.expense-item > div {
+.expense-item>div {
     flex: 1;
     min-width: 0;
 }
@@ -536,7 +536,7 @@ button:hover {
         padding: 12px;
     }
 
-    .expense-item > div {
+    .expense-item>div {
         flex: 1 1 100%;
     }
 
@@ -565,5 +565,125 @@ button:hover {
 
     .report-card .chart-container {
         height: 240px;
+    }
+}
+
+
+/* =========================
+   Debt Section
+========================= */
+
+#debt-section {
+    margin-top: 30px;
+}
+
+#debt-section h3 {
+    margin: 25px 0 15px;
+    color: var(--text-color);
+}
+
+#debt-section .stats-container {
+    margin-bottom: 25px;
+}
+
+#debt-section .stat-card {
+    border-right: 4px solid var(--red-color);
+}
+
+#total-debt-value {
+    color: var(--red-color);
+    font-weight: 800;
+}
+
+/* Debts List */
+
+#debts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.debt-item {
+    background: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.debt-item h4 {
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.debt-item p {
+    color: var(--secondary-color);
+    font-size: 14px;
+}
+
+.debt-item strong {
+    color: var(--red-color);
+    white-space: nowrap;
+}
+
+.debt-empty {
+    background: var(--card-color);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: var(--secondary-color);
+}
+
+/* Debt Payment Form */
+
+#debt-payment-form {
+    background: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 15px;
+}
+
+#debt-payment-form label {
+    display: block;
+    margin: 15px 0 8px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+#debt-payment-form input,
+#debt-payment-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    background: #fff;
+    outline: none;
+}
+
+#debt-payment-form input:focus,
+#debt-payment-form select:focus {
+    border-color: var(--primary-color);
+}
+
+#debt-payment-form .submit-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    .debt-item {
+        padding: 14px;
+    }
+
+    #debt-payment-form {
+        padding: 18px;
     }
 }

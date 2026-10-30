@@ -35,3 +35,21 @@ function loadExpenses() {
         expenses = JSON.parse(savedExpenses);
     }
 }
+
+
+
+// =========================
+// Debt Payments Storage
+// =========================
+
+function saveDebtPayments() {
+    localStorage.setItem("debtPayments", JSON.stringify(debtPayments));
+}
+
+function loadDebtPayments() {
+    let savedPayments = localStorage.getItem("debtPayments");
+
+    if (savedPayments) {
+        debtPayments = JSON.parse(savedPayments);
+    }
+}
